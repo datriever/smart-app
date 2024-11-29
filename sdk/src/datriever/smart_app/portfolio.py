@@ -1,4 +1,4 @@
-from typing_extensions import Sequence as _Seq, TypedDict as _TypedDict
+from typing_extensions import Iterable as _Iter, TypedDict as _TypedDict
 from dataclasses import dataclass as _dataclass
 
 @_dataclass
@@ -24,7 +24,7 @@ class Constraints(_TypedDict, total=False):
   max_emissions: float
   max_risk: float
 
-def cost(source: Source, goals: Goals) -> float:
+def _cost_fn(source: Source, goals: Goals) -> float:
   c = 0
   if 'green' in goals:
     c += source.emissions * goals['green']
@@ -34,7 +34,7 @@ def cost(source: Source, goals: Goals) -> float:
     c += source.risk * goals['safe']
   return c
 
-def inequalities(sources: _Seq[Source], constraints: Constraints):
+def _inequalities(sources: _Iter[Source], constraints: Constraints):
   if not constraints:
     return None, None
   
@@ -59,18 +59,20 @@ def inequalities(sources: _Seq[Source], constraints: Constraints):
   return A_ub, b_ub
 
 
-def optimize(sources: _Seq[Source], *, goals: Goals, constraints: Constraints = {}) -> list[float] | None:
+def optimize(sources: _Iter[Source], *, goals: Goals, constraints: Constraints = {}) -> list[float] | None:
   """
   Optimize portfolio proportions to meet the specified goals and constraints
+  - `goals`: minimization weights for emissions, cost, and risk
+  - `constraints`: maximum weighted cost, emissions, and risk in the portfolio
   - Returns a list of proportions, where `proprortion[i]` corresponds to `sources[i]`
   """
-  objective = [cost(src, goals) for src in sources]
+  objective = [_cost_fn(src, goals) for src in sources]
 
   # Constraint: p1 + p2 + ... + pn = 1
   A_eq = [[1 for _ in sources]]
   b_eq = [1]
 
-  A_ub, b_ub = inequalities(sources, constraints)
+  A_ub, b_ub = _inequalities(sources, constraints)
 
   # p_min <= p_i <= p_max
   bounds = [(src.p_min, src.p_max) for src in sources]
@@ -81,3 +83,15 @@ def optimize(sources: _Seq[Source], *, goals: Goals, constraints: Constraints = 
   if result.success:
     return result.x.tolist()
   
+
+def cost(portfolio: _Iter[tuple[float, Source]]) -> float:
+  """Weighted cost of a portfolio"""
+  return sum(p * src.cost for p, src in portfolio)
+
+def emissions(portfolio: _Iter[tuple[float, Source]]) -> float:
+  """Weighted emissions of a portfolio"""
+  return sum(p * src.emissions for p, src in portfolio)
+
+def risk(portfolio: _Iter[tuple[float, Source]]) -> float:
+  """Weighted risk of a portfolio"""
+  return sum(p * src.risk for p, src in portfolio)
