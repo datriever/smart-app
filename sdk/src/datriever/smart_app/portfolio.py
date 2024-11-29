@@ -7,12 +7,17 @@ class Source:
   emissions: float
   risk: float = 0
   p_min: float = 0
+  """Minimum proportion of the source in the portfolio"""
   p_max: float = 1
+  """Maximum proportion of the source in the portfolio"""
 
 class Goals(_TypedDict, total=False):
   green: float
+  """Weight assigned to minimizing emissions"""
   cheap: float
+  """Weight assigned to minimizing cost"""
   safe: float
+  """Weight assigned to minimizing risk"""
 
 class Constraints(_TypedDict, total=False):
   max_cost: float
@@ -55,6 +60,10 @@ def inequalities(sources: _Seq[Source], constraints: Constraints):
 
 
 def optimize(sources: _Seq[Source], *, goals: Goals, constraints: Constraints = {}) -> list[float] | None:
+  """
+  Optimize portfolio proportions to meet the specified goals and constraints
+  - Returns a list of proportions, where `proprortion[i]` corresponds to `sources[i]`
+  """
   objective = [cost(src, goals) for src in sources]
 
   # Constraint: p1 + p2 + ... + pn = 1
