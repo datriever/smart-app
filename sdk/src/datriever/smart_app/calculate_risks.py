@@ -1,4 +1,20 @@
 import pandas as pd
+# There are 4 Risk Categories For each Source: Biomass, Nuclear, Coal, Natural Gas, Geothermal, Hydro, Wind onshore, PV (Solar).:
+    # Economic Risk: Sensitivity to market fluctuations (e.g., CAPEX, fuel price, LCOE).
+    # Operational Risk: Reliability, maintenance complexity, and capacity factor variability.
+    # Regulatory Risk: Impact of government policies, carbon taxes, or subsidies.
+    # Environmental Risk: Resource availability, location dependency, and environmental impacts.
+# Regulatory Risk Assumptions (EU) :
+    # High for Coal, Natural Gas, Nuclear: 0.5
+    # Medium for Biomass: 0.4
+    # Low for PV, Wind, Geothermal, Hydro: 0.2
+# Environmental Risk Assumptions (EU) :
+    # High for Coal, Natural Gas: 0.5
+    # Medium for Biomass, Nuclear: 0.4
+    # Low for PV, Wind, Geothermal, Hydro: 0.2
+# Economic Factors (excel): Average of (Normalized CAPEX, LCOE, Fuel Price) 
+# Operational Factors (excel): Average of (1−Capacity Factor)+Normalized Fixed O&M+Normalized Variable O&M​ 
+# General Risk: 0.5xEconomic + 0.5xOperational + 0.25xEnvironmental + 0.25xRegulatory 
 
 def normalize(column):
     """Normalize a column to the range [0, 1]."""
