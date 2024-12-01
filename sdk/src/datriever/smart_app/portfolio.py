@@ -1,5 +1,7 @@
 from typing_extensions import Iterable as _Iter, TypedDict as _TypedDict
 from dataclasses import dataclass as _dataclass
+from calculate_risks import calculate_economic_risk, calculate_operational_risk, assign_risk_by_type
+import pandas as pd
 
 @_dataclass
 class Source:
@@ -10,6 +12,37 @@ class Source:
   """Minimum proportion of the source in the portfolio"""
   p_max: float = 1
   """Maximum proportion of the source in the portfolio"""
+  economic_risk: float = 0
+  operational_risk: float = 0
+  regulatory_risk: float = 0
+  environmental_risk: float = 0
+
+  def update_risks(self, row, data):
+        """Update risks by calling functions from calculate_risks.py."""
+        self.economic_risk = calculate_economic_risk(row, data)
+        self.operational_risk = calculate_operational_risk(row, data)
+        self.regulatory_risk = assign_risk_by_type(row['Instrument'], 'regulatory')
+        self.environmental_risk = assign_risk_by_type(row['Instrument'], 'environmental')
+        # Combine all risks into a single field
+        self.risk = 0.5 * self.economic_risk + 0.5 * self.operational_risk+ \
+                    0.25 * self.regulatory_risk + 0.25 * self.environmental_risk
+        
+        # Load the risk data
+        data = pd.read_csv('data/risk_data.csv')
+
+        # Create a list of Source objects and update risks dynamically
+        sources = []
+        for _, row in data.iterrows():
+            source = Source(
+                cost=row['CAPEX ($/kW)'],
+                emissions=row['Fuel price ($/GJ)']
+            )
+            source.update_risks(row, data)
+            sources.append(source)
+
+        # Print the sources with updated risks
+        for source in sources:
+            print(source)
 
 class Goals(_TypedDict, total=False):
   green: float
