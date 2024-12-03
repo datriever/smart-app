@@ -1,0 +1,1 @@
+import{a as o,t as e}from"../chunks/disclose-version.CEBwoSDv.js";import"../chunks/legacy.D1QkXpan.js";var i=e('<main class="svelte-10fdcrt"><h1 class="svelte-10fdcrt">Portfolio Optimization</h1></main>');function n(t){var a=i();o(t,a)}export{n as component};

@@ -1,0 +1,1 @@
+import{a as e,t as r}from"../chunks/disclose-version.CEBwoSDv.js";import"../chunks/legacy.D1QkXpan.js";var o=r('<main class="svelte-10fdcrt"><h1 class="svelte-10fdcrt">Market Predictions</h1></main>');function i(a){var t=o();e(a,t)}export{i as component};
