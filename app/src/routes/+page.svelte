@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { base } from "$app/paths";
   import Plotly, { type Data, type Layout } from "svelte-plotly.js";
 
   const data: Data[] = [
@@ -49,9 +50,9 @@
   <div class="card">
     <h2 style="margin-bottom: 1rem;">Recommendations</h2>
     <div class="btn-group">
-      <a href="strategy/green">🌱 Greener Strategy</a>
-      <a href="strategy/cheap">💰 Cheaper Strategy</a>
-      <a href="strategy/balanced">⚖️ Balanced Strategy</a>
+      <a href={`${base}/strategy/green`}>🌱 Greener Strategy</a>
+      <a href={`${base}/strategy/cheap`}>💰 Cheaper Strategy</a>
+      <a href={`${base}/strategy/balanced`}>⚖️ Balanced Strategy</a>
     </div>
   </div>
 
@@ -59,8 +60,9 @@
   <div class="card">
     <h2 style="margin-bottom: 1rem;">Tools</h2>
     <div class="btn-group">
-      <a href="optimize">📊 Portfolio Optimization</a>
-      <a href="market">📈 Market Predictions</a>
+      <a href={`${base}/optimize`}>📊 Portfolio Optimization</a>
+      <a href={`${base}/market`}>📈 Market Predictions</a>
+      <a href={`${base}/solar`}>☀️ Solar Trading</a>
     </div>
   </div>
 </main>
@@ -110,11 +112,6 @@
 
   a:hover {
     background-color: #163c26;
-  }
-
-  a:active {
-    scale: 0.95;
-    transition: scale 0.1s;
   }
 
 </style>

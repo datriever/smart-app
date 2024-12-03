@@ -2,6 +2,8 @@ import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 import { base } from '$app/paths';
 
+export const ssr = false
+
 export const load: PageLoad = async ({ params, fetch }) => {
   const url = `${base}/strategies/${params.id}.md`
   try {
