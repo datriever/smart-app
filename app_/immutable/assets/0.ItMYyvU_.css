@@ -1,0 +1,1 @@
+:root{--color-bg-1: #0e1411;--color-bg-2: #1b2925;--color-bg-3: #2a3d38;--color-bg-4: #3c5a4b;--color-text: #d4f0e4;--color-heading-1: #a8f0c6}*{box-sizing:border-box;margin:0;padding:0;color:var(--color-text);font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif}body{width:100vw;height:100vh;background:var(--color-bg-1)}

@@ -1,0 +1,1 @@
+import{a as o,t as e}from"../chunks/disclose-version.BnO6T11T.js";import"../chunks/legacy.NHm32dYl.js";var i=e('<main class="svelte-10fdcrt"><h1 class="svelte-10fdcrt">Portfolio Optimization</h1></main>');function n(t){var a=i();o(t,a)}export{n as component};
