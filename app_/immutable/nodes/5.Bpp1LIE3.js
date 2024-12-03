@@ -1,0 +1,1 @@
+import{a as e,t as o}from"../chunks/disclose-version.BnO6T11T.js";import"../chunks/legacy.NHm32dYl.js";var r=o('<main class="svelte-10fdcrt"><h1 class="svelte-10fdcrt">Solar Stuff</h1></main>');function n(a){var t=r();e(a,t)}export{n as component};
