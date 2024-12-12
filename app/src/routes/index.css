@@ -5,7 +5,10 @@
   --color-bg-4: #3c5a4b;
 
   --color-text: #d4f0e4;
-  --color-heading-1: #a8f0c6;
+  --color-h1: #a8f0c6;
+
+  --color-accent-1: #163c26;
+  --color-accent-2: #1f4930;
 }
 
 * {
@@ -13,8 +16,15 @@
   margin: 0;
   padding: 0;
 
-  color: var(--color-text);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2, h3, h4, h5, h6, p, span, a {
+  color: var(--color-text);
+}
+
+h1 {
+  color: var(--color-h1);
 }
 
 body {
