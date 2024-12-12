@@ -217,79 +217,79 @@
   }
 
   /* Header styles */
-  :global(h1) {
+  :global(.markdown h1) {
     color: var(--h1-color);
     font-size: var(--h1-font-size);
     margin: var(--h1-margin);
   }
 
-  :global(h2) {
+  :global(.markdown h2) {
     color: var(--h2-color);
     font-size: var(--h2-font-size);
     margin: var(--h2-margin);
   }
 
-  :global(h3) {
+  :global(.markdown h3) {
     color: var(--h3-color);
     font-size: var(--h3-font-size);
     margin: var(--h3-margin);
   }
 
-  :global(h4) {
+  :global(.markdown h4) {
     color: var(--h4-color);
     font-size: var(--h4-font-size);
     margin: var(--h4-margin);
   }
 
-  :global(h5) {
+  :global(.markdown h5) {
     color: var(--h5-color);
     font-size: var(--h5-font-size);
     margin: var(--h5-margin);
   }
 
-  :global(h6) {
+  :global(.markdown h6) {
     color: var(--h6-color);
     font-size: var(--h6-font-size);
     margin: var(--h6-margin);
   }
 
   /* Link styles */
-  :global(a) {
+  :global(.markdown a) {
     color: var(--link-color);
     text-decoration: none;
   }
 
-  :global(a:hover) {
+  :global(.markdown a:hover) {
     color: var(--link-hover-color);
     text-decoration: underline;
   }
 
-  :global(ul) {
+  :global(.markdown ul) {
     padding-left: var(--ul-padding-left);
     margin: var(--ul-margin);
   }
 
-  :global(ol) {
+  :global(.markdown ol) {
     padding-left: var(--ol-padding-left);
     margin: var(--ol-margin);
   }
 
-  :global(li) {
+  :global(.markdown li) {
     margin-bottom: 0.5rem;
   }
 
-  :global(p) {
+  :global(.markdown p) {
     margin: var(--paragraph-margin);
     line-height: var(--paragraph-line-height);
   }
   
-  :global(hr) {
+  :global(.markdown hr) {
     margin: 1rem 0;
   }
 
 
   /* TABLE STYLES */
-  :global(table) {
+  :global(.markdown table) {
     border-spacing: 0;
     border-collapse: separate;
     border-radius: var(--table-border-radius);
@@ -298,7 +298,7 @@
     font-family: var(--table-font-family);
   }
 
-  :global(th) {
+  :global(.markdown th) {
     background-color: var(--table-header-bg);
     color: var(--table-header-font-color);
     font-size: var(--table-header-font-size);
@@ -307,28 +307,28 @@
     text-align: center;
   }
 
-  :global(td) {
+  :global(.markdown td) {
     padding: var(--table-cell-padding);
     border-bottom: var(--table-row-border);
   }
 
-  :global(tr:nth-child(even)) {
+  :global(.markdown tr:nth-child(even)) {
     background-color: var(--table-even-row-bg);
     color: var(--table-even-row-font-color);
     font-size: var(--table-even-row-font-size);
   }
 
-  :global(tr:nth-child(odd)) {
+  :global(.markdown tr:nth-child(odd)) {
     background-color: var(--table-odd-row-bg);
     color: var(--table-odd-row-font-color);
     font-size: var(--table-odd-row-font-size);
   }
 
-  :global(tr:nth-child(even):hover) {
+  :global(.markdown tr:nth-child(even):hover) {
     background-color: var(--table-even-row-hover);
   }
 
-  :global(tr:nth-child(odd):hover) {
+  :global(.markdown tr:nth-child(odd):hover) {
     background-color: var(--table-odd-row-hover);
   }
 </style>
