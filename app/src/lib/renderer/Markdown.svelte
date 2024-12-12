@@ -304,7 +304,7 @@
     font-size: var(--table-header-font-size);
     padding: var(--table-header-padding);
     border-bottom: var(--table-row-border);
-    text-align: left;
+    text-align: center;
   }
 
   :global(td) {
