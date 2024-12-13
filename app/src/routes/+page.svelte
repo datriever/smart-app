@@ -12,7 +12,6 @@
         colors: ["#a8f0c6", "#8fbf9d", "#f8b88b"], // Theme-aligned colors
       },
       textinfo: "label+percent",
-      insidetextorientation: "radial",
     },
   ];
 
@@ -21,6 +20,7 @@
     plot_bgcolor: "#1b2925",
     margin: { l: 0, r: 0, t: 0, b: 0 },
     font: { color: "#d4f0e4" },
+    showlegend: false,
   };
 </script>
 
