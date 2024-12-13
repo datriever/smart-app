@@ -10,7 +10,6 @@
   const theme: Theme = {
     table: {
       headerBg: '#444',                // Dark background for headers
-      headerFontColor: 'var(--color-h1)',         // White text for headers
       oddRowBg: '#2b2b2b',            // Dark grey for even rows
       oddRowFontColor: 'var(--color-text)',     // Light grey text for even rows
       oddRowHover: '#333',            // Slightly lighter grey for even row hover
@@ -18,6 +17,11 @@
       evenRowFontColor: 'var(--color-text)',      // Light grey text for odd rows
       evenRowHover: '#333',             // Slightly lighter grey for odd row hover
       border: '1px solid #444',        // Medium grey border for cells
+    },
+    text: {
+      h1Color: 'var(--color-h1)',
+      h2Color: 'white',
+
     },
     plot: {
       paper_bgcolor: "#1b2925",
