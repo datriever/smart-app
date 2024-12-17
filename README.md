@@ -1,7 +1,18 @@
 # Smart App
 Schneider Smart App thing
 
-## Installation
+## Frontend
+
+### Setup
+
+1. Install Node.js and npm
+2. `cd app`
+3. `npm install`
+4. `npm run dev --host`
+
+## Backend
+
+### Setup
 
 1. Create virtual env (first time)
   
@@ -19,6 +30,12 @@ Schneider Smart App thing
 
   ```bash
   pip install -r requirements.txt
+  ```
+
+4. Run server
+
+  ```bash
+  cd api && python main.py
   ```
 
 ## Features

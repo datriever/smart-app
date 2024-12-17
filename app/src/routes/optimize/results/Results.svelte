@@ -1,62 +1,63 @@
 <script lang="ts" module>
+  import { createClient } from '@hey-api/client-fetch';
+  import { optimizePortfolio } from '$lib/client'
+
   export type Props = {
     cost: boolean
     emissions: boolean
     risk: boolean
+    sources: Source[]
   }
+
+  const client = createClient({ baseUrl: 'http://localhost:8000' });
 
 </script>
 
 <script lang="ts">
-    import Markdown from "$lib/renderer";
-    import type { Theme } from "$lib/renderer/Markdown.svelte";
+  import Markdown from "$lib/renderer";
+  import type { Theme } from "$lib/renderer/Markdown.svelte";
+  import type { Source } from '../sources';
+    import { resultsMarkdown } from './results';
 
-  const { cost, emissions, risk }: Props = $props()
+  const { cost, emissions, risk, sources }: Props = $props()
 
-  const portfolio: Record<string, number> = {
-    Wind: 0.1,
-    Solar: 0.2,
-    Hydro: 0.3,
-    Nuclear: 0.4,
+  type Result = {
+    tag: 'loading' | 'error' | 'impossible'
+  } | {
+    tag: 'success'
+    proportions: number[]
+    markdown: string
   }
-  const labels = JSON.stringify(Object.keys(portfolio))
-  const values = JSON.stringify(Object.values(portfolio))
+  let result: Result = $state({ tag: 'loading' })
 
-  const quote = '```';
+  async function optimize() {
+    console.log('Optimizing portfolio')
+    const res = await optimizePortfolio({
+      client, throwOnError: false, body: {
+        goals: { cheap: cost ? 1 : 0, green: emissions ? 1 : 0, safe: risk ? 1 : 0 },
+        sources, constraints: {}
+      }
+    })
+    if (res.error) {
+      result = { tag: 'error' }
+    } else if (res.data) {
+      const proportions = res.data
+      const portfolio = sources
+        .map((source, i): [Source, number] => [source, proportions[i]])
+        .filter(([_, proportion]) => proportion > 0);
 
-  const markdown = `
-
-# Optimization Results
-
-## Optimal Energy Mix
-
-${quote}plot
-{
-  "data": [
-    {
-      "labels": ${labels},
-      "values": ${values},
-      "type": "pie",
-      "hole": 0.3,
-      "textinfo": "label+percent",
-      "name": "Energy Sources"
+      console.log('Optimized portfolio', portfolio)
+      result = {
+        tag: 'success', proportions,
+        markdown: resultsMarkdown(portfolio)
+      }
+    } else {
+      result = { tag: 'impossible' }
     }
-  ],
-  "layout": {
-    "showlegend": false,
-    "margin": {"l": 10, "r": 10, "t": 10, "b": 10}
   }
-}
-${quote}
 
-## Key Performance Indicators
+  $effect(() => { optimize() })
 
-| **Metric**               | **Value**         |
-|---------------------------|-------------------|
-| Weighted Cost (LCOE)      | $65.93/MWh        |
-| Weighted Carbon Intensity | 278.25 gCO2eq/kWh |
-
-`;
 
   const theme: Theme = {
     table: {
@@ -84,4 +85,12 @@ ${quote}
 </script>
 
 
-<Markdown {markdown} {theme} />
+{#if result.tag === 'loading'}
+  <p>Loading...</p>
+{:else if result.tag === 'error'}
+  <p>Error</p>
+{:else if result.tag === 'impossible'}
+  <p>Impossible</p>
+{:else if result.tag === 'success'}
+  <Markdown {theme} markdown={result.markdown} />
+{/if}

@@ -13,6 +13,7 @@
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.3",
+		"@hey-api/openapi-ts": "^0.59.2",
 		"@iconify/json": "^2.2.282",
 		"@iconify/svelte": "^4.1.0",
 		"@sveltejs/adapter-auto": "^3.0.0",
@@ -30,6 +31,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@hey-api/client-fetch": "^0.5.4",
 		"plotly.js-dist": "^2.35.2",
 		"svelte-markdown": "^0.4.1",
 		"svelte-plotly.js": "^1.2.0"

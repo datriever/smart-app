@@ -3,4 +3,7 @@ twine
 ipykernel
 verify-import
 pyright
+fastapi
+sqlmodel
+pandas
 -e sdk

@@ -133,8 +133,7 @@
 
   import SvelteMarkdown from 'svelte-markdown'
   import CodeRenderer from './CodeRenderer.svelte';
-    import type { Layout } from 'svelte-plotly.js';
-    import type Plot from 'svelte-plotly.js';
+  import type { Layout } from 'svelte-plotly.js';
   // import HtmlRenderer from './HtmlRenderer.svelte';
   // import { preprocessMarkdown } from './markdown';
   // const preprocessedMarkdown = preprocessMarkdown(markdown);

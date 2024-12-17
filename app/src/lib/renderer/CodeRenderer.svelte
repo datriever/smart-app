@@ -29,8 +29,6 @@
 
   const { text, lang, raw, fillParent, layout }: Props = $props()
 
-  console.log('Layout:', layout)
-
 </script>
 
 {#if lang === 'plot'}

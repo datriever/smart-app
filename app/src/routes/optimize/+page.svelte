@@ -35,7 +35,7 @@
       </div>
     {:else if tab === 'results'}
       <div class='results-tab'>
-        <Results {cost} {emissions} {risk} />
+        <Results {cost} {emissions} {risk} {sources} />
       </div>
     {/if}
   </main>

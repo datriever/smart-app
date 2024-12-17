@@ -1,12 +1,14 @@
 from typing_extensions import Iterable as _Iter, TypedDict as _TypedDict
 from dataclasses import dataclass as _dataclass
-from calculate_risks import calculate_economic_risk, calculate_operational_risk, assign_risk_by_type
+from .calculate_risks import calculate_economic_risk, calculate_operational_risk, assign_risk_by_type
 import pandas as pd
 
 @_dataclass
 class Source:
   cost: float
+  """€/MWh"""
   emissions: float
+  """gCO2/kWh"""
   risk: float = 0
   p_min: float = 0
   """Minimum proportion of the source in the portfolio"""
