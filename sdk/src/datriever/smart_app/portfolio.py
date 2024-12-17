@@ -130,3 +130,41 @@ def emissions(portfolio: _Iter[tuple[float, Source]]) -> float:
 def risk(portfolio: _Iter[tuple[float, Source]]) -> float:
   """Weighted risk of a portfolio"""
   return sum(p * src.risk for p, src in portfolio)
+
+
+@_dataclass
+class Solar_trading:
+  """The objective of this class is analyze the solar production of the comppany"""
+  site_consumption: list[float] 
+  site_production: list[float]
+  """kWh"""
+  hours: list[int]
+  """In original data the time was only a number (of row)"""
+  sell_price: float
+  """Price of selling extra onsite solar production ($/MWh)"""
+  omie_buy_price: list[float]
+  """List by hour of omie energy buy price ($/MWh)"""
+  gainings: float = 0
+  """Quantity of money gained by selling the extra in $ (only if solar production > conventional production)"""
+  savings: float = 0
+  """Quantity of money saved by using solar energy instead of conventional"""
+
+  """The idea of the functions is analyze hour per hour"""
+
+  def getGainings(site_consumption: list[float], site_production: list[float], sell_price: float) -> list[float]:
+    """Get money from selling extra solar energy"""
+    gainingHours: list[int]
+    """Hours where we sell energy"""
+    for hour in site_consumption:
+      difference = site_production[hour] - site_consumption[hour]
+      if difference >= 0:
+        gainingHours.append(hour)
+        # gainings += round(difference*sell_price/1000,2)
+      else:
+        break
+        # savings += site_production[hour]*omie_buy_price/1000
+    return gainingHours
+  
+  """After that show earning and savings in a table"""
+  """Maybe also add a llitle graphic comparing production and consumption"""
+  """Maybe gainingHours list is very large maybe just show a % of hours with earnings"""
