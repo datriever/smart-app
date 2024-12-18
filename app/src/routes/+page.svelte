@@ -1,45 +1,48 @@
-<script lang="ts">
+<script lang="ts" module>
+    import { getPortfolio, type PortfolioSource } from "$lib/client";
+  import { createClient } from "@hey-api/client-fetch";
+
+  const client = createClient({ baseUrl: 'http://localhost:8000' })
+
+</script>
+
+<script lang='ts'>
+  import Portfolio from "./Portfolio.svelte";
   import { base } from "$app/paths";
   import Icon from "@iconify/svelte";
-  import Plotly, { type Data, type Layout } from "svelte-plotly.js";
 
-  const data: Data[] = [
-    {
-      values: [40, 35, 25], // Percentages
-      labels: ["Solar", "Wind", "Natural Gas"],
-      type: "pie",
-      marker: {
-        colors: ["#a8f0c6", "#8fbf9d", "#f8b88b"], // Theme-aligned colors
-      },
-      textinfo: "label+percent",
-    },
-  ];
 
-  const layout: Partial<Layout> = {
-    paper_bgcolor: "#1b2925",
-    plot_bgcolor: "#1b2925",
-    margin: { l: 0, r: 0, t: 0, b: 0 },
-    font: { color: "#d4f0e4" },
-    showlegend: false,
-  };
+  type PortfolioState = {
+    tag: 'error'
+  } | {
+    tag: 'success'
+    portfolio: PortfolioSource[]
+  }
+
+  let portfolio: PortfolioState = $state({ tag: 'success', portfolio: [] })
+
+  async function fetchPortfolio() {
+    const res = await getPortfolio({ client, throwOnError: false })
+    if (res.data)
+      portfolio = { tag: 'success', portfolio: res.data }
+    else
+      portfolio = { tag: 'error' }
+  }
+
+  $effect.root(() => { fetchPortfolio() })
+
 </script>
 
 <main>
   <h1>Smart Energy App</h1>
 
-  <!-- Pie Chart -->
-  <div class="card">
-    <h2 style="margin-bottom: 0.4rem;">Your Portfolio</h2>
-    <Plotly {data} {layout} fillParent="width" />
-  </div>
-
-  <!-- Indicators -->
-  <div class="card">
-    <h2 style="margin-bottom: 0.4rem;">Key Indicators</h2>
-    <p>Weighted Cost: <strong>$0.098 / kWh</strong></p>
-    <p>CO₂ Intensity: <strong>0.162 kg CO₂ / kWh</strong></p>
-  </div>
-
+  <!-- Portfolio -->
+  {#if portfolio.tag === 'success'}
+    <Portfolio portfolio={portfolio.portfolio} />
+  {:else}
+    <p>Error fetching portfolio</p>
+  {/if}
+  
   <!-- Quick Insights -->
   <div class="card">
     <h2 style="margin-bottom: 0.4rem;">Quick Insights</h2>

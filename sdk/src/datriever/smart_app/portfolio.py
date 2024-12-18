@@ -23,8 +23,8 @@ class Source:
         """Update risks by calling functions from calculate_risks.py."""
         self.economic_risk = calculate_economic_risk(row, data)
         self.operational_risk = calculate_operational_risk(row, data)
-        self.regulatory_risk = assign_risk_by_type(row['Instrument'], 'regulatory')
-        self.environmental_risk = assign_risk_by_type(row['Instrument'], 'environmental')
+        self.regulatory_risk = assign_risk_by_type(row['Instrument'], 'regulatory') # type: ignore
+        self.environmental_risk = assign_risk_by_type(row['Instrument'], 'environmental') # type: ignore
         # Combine all risks into a single field
         self.risk = 0.5 * self.economic_risk + 0.5 * self.operational_risk+ \
                     0.25 * self.regulatory_risk + 0.25 * self.environmental_risk
