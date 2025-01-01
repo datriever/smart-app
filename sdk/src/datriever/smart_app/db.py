@@ -3,13 +3,39 @@ from sqlmodel import SQLModel as _SQLModel, Field as _Field, Relationship as _Re
 from datriever.smart_app import solar_trading
 
 class Source(_SQLModel, table=True):
-  id: str = _Field(primary_key=True)
-  name: str
-  cost: float
-  '''€/MWh'''
-  emissions: float
-  '''gCO2/kWh'''
-  risk: float | None = None
+    id: str = _Field(primary_key=True)
+    name: str
+    cost: float  # €/MWh
+    emissions: float  # gCO2/kWh
+    risk: float = 0  # Overall risk score
+    p_min: float = 0  # Minimum proportion
+    p_max: float = 1  # Maximum proportion
+    economic_risk: float = 0
+    operational_risk: float = 0
+    regulatory_risk: float = 0
+    environmental_risk: float = 0
+
+    def update_risks(self, row, data):
+        """Update risks by calling functions from calculate_risks.py."""
+        from .calculate_risks import (
+            calculate_economic_risk,
+            calculate_operational_risk,
+            assign_risk_by_type,
+        )
+        
+        self.economic_risk = calculate_economic_risk(row, data)
+        self.operational_risk = calculate_operational_risk(row, data)
+        self.regulatory_risk = assign_risk_by_type(row['Instrument'], 'regulatory')
+        self.environmental_risk = assign_risk_by_type(row['Instrument'], 'environmental')
+        
+        # Combine all risks into a single field
+        self.risk = (
+            0.5 * self.economic_risk
+            + 0.5 * self.operational_risk
+            + 0.25 * self.regulatory_risk
+            + 0.25 * self.environmental_risk
+        )
+
 
 class Portfolio(_SQLModel, table=True):
   sourceId: str = _Field(primary_key=True, foreign_key='source.id')
@@ -44,4 +70,3 @@ def mock_portfolio() -> tuple[list[Source], list[Portfolio]]:
 
   return sources, portfolio
   
-
