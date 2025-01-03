@@ -46,8 +46,8 @@
 <!-- Indicators -->
 <div class="card">
   <h2 style="margin-bottom: 0.4rem;">Key Indicators</h2>
-  <p>Weighted Cost: <strong>{weightedCost}  €/MWh</strong></p>
-  <p>CO₂ Intensity: <strong>{weightedEmissions} gCO₂/kWh</strong></p>
+  <p>Weighted Cost: <strong>{weightedCost.toFixed(2)}  €/MWh</strong></p>
+  <p>CO₂ Intensity: <strong>{weightedEmissions.toFixed(2)} gCO₂/kWh</strong></p>
 </div>
 
 

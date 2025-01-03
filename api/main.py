@@ -1,4 +1,4 @@
-from typing_extensions import TypedDict, NotRequired
+from typing_extensions import TypedDict, NotRequired, Sequence as Seq
 from fastapi import FastAPI, Response
 from sqlalchemy import Engine
 from sqlmodel import SQLModel, create_engine, select, Session
@@ -23,6 +23,26 @@ def api(engine: Engine):
     with Session(engine) as s:
       data = s.exec(select(db.SolarData)).all()
       return solar_trading.gains(data)
+    
+
+  @app.get('/data/markets')
+  def get_markets() -> list[db.Market]:
+    """Get all markets."""
+    with Session(engine) as s:
+      markets = s.exec(select(db.Market)).all()
+      return [db.Market(id=m.id, name=m.name, location=m.location, unit=m.unit) for m in markets]
+    
+  class MarketPrices(TypedDict):
+    candles: Seq[db.MarketCandle]
+    preds: Seq[db.MarketPred]
+
+  @app.get('/data/markets/{id}')
+  def get_market_prices(id: str) -> MarketPrices:
+    """Get all prices for a market."""
+    with Session(engine) as s:
+      candles = s.exec(select(db.MarketCandle).where(db.MarketCandle.marketId == id)).all()
+      preds = s.exec(select(db.MarketPred).where(db.MarketPred.marketId == id)).all()
+      return MarketPrices(candles=candles, preds=preds)
 
 
   class Source(TypedDict):
@@ -137,13 +157,8 @@ if __name__ == '__main__':
 
 
     if args.mock:
-      sources, pfolio = db.mock_portfolio()
       with Session(engine) as s:
-        for src in sources:
-          s.add(src)
-        for p in pfolio:
-          s.add(p)
-        s.commit()
+        db.create_mock_db(s)
 
     app = api(engine)
     app.add_middleware(CORSMiddleware, allow_origins=[args.cors], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])

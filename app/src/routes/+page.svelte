@@ -1,9 +1,7 @@
 <script lang="ts" module>
-    import { getPortfolio, type PortfolioSource } from "$lib/client";
+  import { getPortfolio, type PortfolioSource } from "$lib/client";
   import { createClient } from "@hey-api/client-fetch";
-
   const client = createClient({ baseUrl: 'http://localhost:8000' })
-
 </script>
 
 <script lang='ts'>

@@ -39,6 +39,33 @@ export type HTTPValidationError = {
     detail?: Array<ValidationError>;
 };
 
+export type Market = {
+    id: string;
+    name: string;
+    location: string;
+    unit: string;
+};
+
+export type MarketCandle = {
+    time: string;
+    open: number;
+    close: number;
+    high: number;
+    low: number;
+    marketId: string;
+};
+
+export type MarketPred = {
+    time: string;
+    price: number;
+    marketId: string;
+};
+
+export type MarketPrices = {
+    candles: Array<MarketCandle>;
+    preds: Array<MarketPred>;
+};
+
 export type OptimizeParams = {
     sources: Array<datriever__smart_app__portfolio__Source>;
     goals: Goals;
@@ -82,6 +109,20 @@ export type OptimizePortfolioError = (HTTPValidationError);
 export type SolarResponse = (Array<Gain>);
 
 export type SolarError = unknown;
+
+export type GetMarketsResponse = (Array<Market>);
+
+export type GetMarketsError = unknown;
+
+export type GetMarketPricesData = {
+    path: {
+        id: string;
+    };
+};
+
+export type GetMarketPricesResponse = (MarketPrices);
+
+export type GetMarketPricesError = (HTTPValidationError);
 
 export type GetSourcesResponse = (Array<Source_Output>);
 

@@ -21,7 +21,6 @@
     text: {
       h1Color: 'var(--color-h1)',
       h2Color: 'white',
-
     },
     plot: {
       paper_bgcolor: "#1b2925",
